@@ -49,3 +49,5 @@ docker run -d -p 80:80 --name meedu-api \
   -e JWT_SECRET=26tpIiNHtYE0YsXeDge837qfIXVmlOES8l9M2u9OTrCZ9NASZcqJdYXBaOSPeLsh \
   meedu-api:latest
 ```
+
+请按照自己的环境配置修改上述的命令。为了应用更加安全，请修改 `APP_KEY` 和 `JWT_SECRET` 的值。
