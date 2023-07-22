@@ -73,7 +73,7 @@ docker run -d -p 80:80 --name meedu-api \
 
 ## `php-fpm` 性能优化
 
-在不同的配置机器中可以通过修改 `php-fpm` 的配置来达到最大的性能。
+在不同的配置机器中可以通过修改 `php-fpm` 的配置来达到最大的性能。你可以修改 `php/php-fpm.d/www.conf` 中的配置并重新 `build` 新的镜像使配置生效。
 
 ### 如何设置合理的 `pm` ?
 
@@ -109,14 +109,14 @@ pm.max_children = (容器可使用内存*0.8) / 20
 ;   pm.max_children - 可同时存在的最大子进程数。
 ;   pm.process_idle_timeout - 空闲进程将被杀死的秒数。
 ; 注意：此值为必填项。
-pm = dynamic
+pm = static
 
 ; 当 pm 设置为“static”时创建的子进程数以及当 pm 设置为“dynamic”或“ondemand”时的最大子进程数。
 ; 此值设置了将同时处理的请求数的限制。相当于使用 mpm_prefork 的 ApacheMaxClients 指令。
 ; 相当于原始 PHP CGI 中的 PHP_FCGI_CHILDREN 环境变量。下面的默认值基于没有太多资源的服务器。不要忘记调整 pm.* 以适应您的需求。
 ; 注意：当 pm 设置为“static”、“dynamic”或“ondemand”时使用。
 ; 注意：此值为必填项。
-pm.max_children = 5
+pm.max_children = 10
 
 ; 启动时创建的子进程数。
 ; 注意：仅在 pm 设置为“dynamic”时使用。

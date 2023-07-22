@@ -24,7 +24,7 @@ RUN apk add nginx libzip-dev
 
 RUN docker-php-ext-install pdo pdo_mysql zip bcmath pcntl
 
-RUN cp /usr/local/etc/php/php.ini-production php.ini
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
 RUN mkdir -p /var/log/php
 
