@@ -133,3 +133,13 @@ pm.min_spare_servers = 1
 ; 注意：当 pm 设置为“dynamic”时为必填项。
 pm.max_spare_servers = 3
 ```
+
+## 其它
+
+### 我们可以指定容器可使用的最大 `CPU` 核数、内存数
+
+```
+docker run --cpus=1 --memory=512m <image_name>
+```
+
+上述案例就是限制容器只能使用 `1h,512m` 的资源。
