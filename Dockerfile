@@ -22,9 +22,13 @@ RUN apk add --no-cache \
 
 RUN apk add nginx libzip-dev
 
-RUN docker-php-ext-install pdo pdo_mysql zip bcmath pcntl
+# nginx配置文件
+COPY nginx/default.conf /etc/nginx/http.d/default.conf
 
-RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+RUN docker-php-ext-install pdo pdo_mysql zip bcmath pcntl opcache
+
+# PHP配置文件
+COPY php/php.ini /usr/local/etc/php/php.ini
 
 RUN mkdir -p /var/log/php
 
@@ -34,16 +38,22 @@ COPY php/php-fpm.conf /usr/local/etc/php-fpm.conf
 
 COPY php/php-fpm.d /usr/local/etc/php-fpm.d
 
+# 安装composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# 设置工作目录
 WORKDIR /var/www
 
+# 复制源代码到容器
 COPY /api /var/www
 
+# 安装依赖
 RUN composer install --optimize-autoloader --no-dev
 
+# 目录权限
 RUN chown -R www-data:www-data /var/www /var/www/bootstrap/cache
 
-COPY nginx/default.conf /etc/nginx/http.d/default.conf
+# laravel框架的一些操作
+RUN php artisan route:cache && php artisan storage:link && php artisan install:lock
 
 ENTRYPOINT nginx && php-fpm
