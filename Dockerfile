@@ -24,23 +24,26 @@ RUN apk add nginx libzip-dev
 
 RUN docker-php-ext-install pdo pdo_mysql zip bcmath pcntl
 
-# 安装 Composer
+RUN cp /usr/local/etc/php/php.ini-production php.ini
+
+RUN mkdir -p /var/log/php
+
+RUN chown -R www-data:www-data /var/log/php
+
+COPY php/php-fpm.conf /usr/local/etc/php-fpm.conf
+
+COPY php/php-fpm.d /usr/local/etc/php-fpm.d
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# 设置工作目录
 WORKDIR /var/www
 
-# 复制 Laravel 项目文件到工作目录
 COPY /api /var/www
 
-# 安装项目依赖
 RUN composer install --optimize-autoloader --no-dev
 
-# 设置文件权限
 RUN chown -R www-data:www-data /var/www /var/www/bootstrap/cache
 
-# 复制 Nginx 配置文件
 COPY nginx/default.conf /etc/nginx/http.d/default.conf
 
-# 启动 Nginx 和 PHP-FPM
 ENTRYPOINT nginx && php-fpm
