@@ -2,7 +2,7 @@
 
 - [x] php7.4
 - [x] 定时任务
-- [ ] 消费者队列
+- [x] 消费者队列
 
 ## 构建并运行镜像
 
@@ -153,6 +153,91 @@ crontab -e
 ```
 
 > 注意，如果您的 `MeEdu` 是分布式部署的话，那么请给定时任务单独分配一台机器用户处理。
+
+## 消费者队列进程
+
+如果 `MeEdu` 的 `API` 程序下的 `.env` 文件中的 `QUEUE_DRIVER` 的值不是 `sync` 的话，那么我们需要配置消费者队列进程。下面给出`Ubuntu`,`Centos`的配置教程：
+  
+### `Ubuntu` 配置教程
+
+首先，安装 `Supervisor`
+
+```
+sudo apt update
+sudo apt install supervisor
+```
+
+创建 `Supervisor` 的配置文件：
+
+```
+vi /etc/supervisor/conf.d/meedu-queue.conf
+```
+
+输入下面内容：
+
+```
+[program:meedu-queue]
+process_name=%(program_name)s_%(process_num)02d
+command=docker exec meedu-api php /var/www/artisan queue:work --sleep=3 --tries=3
+autostart=true
+autorestart=true
+user=root
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/home/ubuntu/meedu-queue-sv.log
+```
+
+让配置生效：
+
+```
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start meedu-queue:*
+```
+
+### `Centos` 配置教程
+
+首先，安装 `Supervisor`
+
+```
+yum install epel-release
+yum install -y supervisor
+```
+
+配置 `Supervisor` 开机启动
+
+```
+systemctl enable supervisord
+systemctl start supervisord 
+```
+
+创建 `Supervisor` 的配置文件：
+
+```
+vi /etc/supervisord.d/meedu-queue.ini
+```
+
+并输入下面内容：
+
+```
+[program:meedu-queue]
+process_name=%(program_name)s_%(process_num)02d
+command=docker exec meedu-api php /var/www/artisan queue:work --sleep=3 --tries=3
+autostart=true
+autorestart=true
+user=root
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/root/meedu-queue-sv.log
+```
+
+让配置生效：
+
+```
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start meedu-queue:*
+```
 
 ## 其它
 
