@@ -93,7 +93,7 @@ docker run -d -p 80:80 --name meedu-api \
 | 配置项    | 值                                                              |
 | --------- | --------------------------------------------------------------- |
 | `php.ini` | `/usr/local/etc/php/php.ini`                                    |
-| 配置文件  | `/usr/local/etc/php-fpm.conf`,`/use/local/etc/php-fpm.d/*.conf` |
+| 配置文件  | `/usr/local/etc/php-fpm.conf`,`/usr/local/etc/php-fpm.d/*.conf` |
 | 访问日志  | `/var/log/php/php-fpm.access.$pool.log`                         |
 | 慢日志    | `/var/log/php/php-fpm.slow.$pool.log`                           |
 
