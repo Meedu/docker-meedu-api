@@ -138,6 +138,22 @@ pm.min_spare_servers = 1
 pm.max_spare_servers = 3
 ```
 
+## 定时任务
+
+我们可以通过 `crontab` 去配置 `MeEdu` 的定时任务，通过下面的命令打开系统的定时开关：
+
+```
+crontab -e
+```
+
+在打开的窗口最后一行另起一行，然后输入下面的配置：
+
+```
+* * * * * docker exec meedu-api php /var/www/artisan schedule:run >> /dev/null 2>&1
+```
+
+> 注意，如果您的 `MeEdu` 是分布式部署的话，那么请给定时任务单独分配一台机器用户处理。
+
 ## 其它
 
 ### 我们可以指定容器可使用的最大 `CPU` 核数、内存数
