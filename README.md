@@ -4,6 +4,28 @@
 - [x] 定时任务
 - [x] 消费者队列
 
+## 直接运行官方发行的镜像
+
+```
+docker run -d -p 80:80 --name meedu-api \
+  -e DB_HOST=数据库HOST \
+  -e DB_PORT=数据库端口 \
+  -e DB_DATABASE=数据库端口 \
+  -e DB_USERNAME=数据库用户名 \
+  -e DB_PASSWORD=数据库密码 \
+  -e CACHE_DRIVER=redis \
+  -e SESSION_DRIVER=redis \
+  -e QUEUE_DRIVER=redis \
+  -e REDIS_HOST=redis的HOST \
+  -e REDIS_PASSWORD=null \
+  -e REDIS_PORT=6379 \
+  -e APP_KEY=base64:s9M5EmBWLWerXU/udZ8biH8GYGKBAEtatGNI2XnzEVM= \
+  -e JWT_SECRET=26tpIiNHtYE0YsXeDge837qfIXVmlOES8l9M2u9OTrCZ9NASZcqJdYXBaOSPeLsh \
+  meeduxyz/api:4.9.2
+```
+
+> 请注意替换上述命令中的配置值。为了应用安全，请将 `APP_KEY` 和 `JWT_SECRET` 的值也一并更换。
+
 ## 构建并运行镜像
 
 ### 第一步、克隆本仓库
