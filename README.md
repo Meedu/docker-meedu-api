@@ -21,7 +21,7 @@ docker run -d -p 80:80 --name meedu-api \
   -e REDIS_PORT=6379 \
   -e APP_KEY=base64:s9M5EmBWLWerXU/udZ8biH8GYGKBAEtatGNI2XnzEVM= \
   -e JWT_SECRET=26tpIiNHtYE0YsXeDge837qfIXVmlOES8l9M2u9OTrCZ9NASZcqJdYXBaOSPeLsh \
-  meeduxyz/api:4.9.2
+  meeduxyz/api:4.9.5
 ```
 
 > 请注意替换上述命令中的配置值。为了应用安全，请将 `APP_KEY` 和 `JWT_SECRET` 的值也一并更换。
