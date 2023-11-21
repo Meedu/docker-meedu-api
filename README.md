@@ -4,13 +4,13 @@
 - [x] 定时任务
 - [x] 消费者队列
 
-## 直接运行官方发行的镜像
+## 一、直接运行官方发行的镜像
 
 ```
 docker run -d -p 80:80 --name meedu-api \
   -e DB_HOST=数据库HOST \
   -e DB_PORT=数据库端口 \
-  -e DB_DATABASE=数据库端口 \
+  -e DB_DATABASE=数据库名 \
   -e DB_USERNAME=数据库用户名 \
   -e DB_PASSWORD=数据库密码 \
   -e CACHE_DRIVER=redis \
@@ -26,7 +26,23 @@ docker run -d -p 80:80 --name meedu-api \
 
 > 请注意替换上述命令中的配置值。为了应用安全，请将 `APP_KEY` 和 `JWT_SECRET` 的值也一并更换。
 
-## 构建并运行镜像
+如果是第一次运行系统的话，您还需要执行下面的命令初始化系统数据：
+
+```
+# 初始化数据表
+docker exec meedu-api php artisan migrate --force
+
+# 初始化系统配置
+docker exec meedu-api php artisan install config
+
+# 初始化系统管理角色
+docker exec meedu-api php artisan install role
+
+# 初始化系统管理员
+docker exec -i meedu-api php artisan install administrator
+```
+
+## 二、自行构建并运行镜像
 
 ### 第一步、克隆本仓库
 
@@ -78,7 +94,7 @@ docker run -d -p 80:80 --name meedu-api \
 
 请按照自己的环境配置修改上述的命令。为了应用更加安全，请修改 `APP_KEY` 和 `JWT_SECRET` 的值。
 
-## 镜像信息
+## 三、镜像信息
 
 ### `Nginx`
 
