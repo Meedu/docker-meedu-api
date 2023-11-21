@@ -113,7 +113,7 @@ docker run -d -p 80:80 --name meedu-api \
 | 访问日志  | `/var/log/php/php-fpm.access.$pool.log`                         |
 | 慢日志    | `/var/log/php/php-fpm.slow.$pool.log`                           |
 
-## `php-fpm` 性能优化
+## 四、`php-fpm` 性能优化
 
 在不同的配置机器中可以通过修改 `php-fpm` 的配置来达到最大的性能。你可以修改 `php/php-fpm.d/www.conf` 中的配置并重新 `build` 新的镜像使配置生效。
 
@@ -176,7 +176,7 @@ pm.min_spare_servers = 1
 pm.max_spare_servers = 3
 ```
 
-## 定时任务
+## 五、定时任务
 
 我们可以通过 `crontab` 去配置 `MeEdu` 的定时任务，通过下面的命令打开系统的定时任务编辑器：
 
@@ -192,7 +192,7 @@ crontab -e
 
 > 注意，如果您的 `MeEdu` 是分布式部署的话，那么请给定时任务单独分配一台机器用户处理。
 
-## 消费者队列进程
+## 六、消费者队列进程
 
 如果 `MeEdu` 的 `API` 程序下的 `.env` 文件中的 `QUEUE_DRIVER` 的值不是 `sync` 的话，那么我们需要配置消费者队列进程。下面给出`Ubuntu`,`Centos`的配置教程：
   
@@ -277,7 +277,7 @@ sudo supervisorctl update
 sudo supervisorctl start meedu-queue:*
 ```
 
-## 其它
+## 七、其它
 
 ### 我们可以指定容器可使用的最大 `CPU` 核数、内存数
 
