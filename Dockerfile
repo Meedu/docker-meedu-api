@@ -48,7 +48,7 @@ WORKDIR /var/www/api
 RUN composer install --optimize-autoloader --no-dev
 
 # 目录权限
-RUN chown -R www-data:www-data /var/www /var/www/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/api
 
 # laravel框架的一些操作
 RUN php artisan route:cache && php artisan storage:link && php artisan install:lock
